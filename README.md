@@ -86,7 +86,7 @@ LiteHan 是一个收集常用 **1000、3500、7000 汉字** 以及常用符号�
 
 > 除了 fonttools，你也可以使用 FontForge 来进行字体编辑与子集化。FontForge 是一款开源的图形化字体编辑器，支持 TTF/OTF/SVG 等多种格式，并提供脚本接口（Python/SFD）用于自动化处理。 它适合需要可视化调整字形、手动检查轮廓或进行更复杂字体编辑的场景。
 
-## 常用 Unicode 范围参考
+## 🔡 常用 Unicode 范围参考
 | 字符集 | Unicode 范围 |
 |-------|--------------|
 | 基本汉字（CJK Unified Ideographs） | `U+4E00–9FFF` |
