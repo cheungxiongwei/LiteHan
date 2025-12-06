@@ -47,14 +47,58 @@ LiteHan 是一个收集常用 **1000、3500、7000 汉字** 以及常用符号�
    git clone https://github.com/cheungxiongwei/LiteHan.git
    ```
 2. 根据需求选择对应的汉字文件
-3. 使用字体子集化工具（如 `fonttools`、`pyftsubset`）生成精简字体
+3. 使用字体子集化工具生成精简字体
+   你可以借助 fonttools 提供的 pyftsubset 来生成仅包含所需字符的精简字体文件，从而显著减少字体体积。
 
-```py
-pyftsubset input.ttf --text-file=3500.han --output-file=subset3500.ttf
-pyftsubset input.ttf --text-file=3500.han --flavor=woff2 --output-file=subset.woff2
-```
+   3.1 安装依赖
+   ```sh
+   pip install fonttools
+   ```
+
+   3.2 基于字符文件生成子集字体
+   以下示例基于 `3500.han` 字符集文件：
+   ```sh
+   # 生成精简版 TTF
+   pyftsubset input.ttf \
+     --text-file=3500.han \
+     --output-file=subset3500.ttf
+
+   # 生成精简版 WOFF2
+   pyftsubset input.ttf \
+     --text-file=3500.han \
+     --flavor=woff2 \
+     --output-file=subset.woff2
+   ```
+
+   3.3 使用 Unicode 范围生成子集字体
+   适用于连续区段（如 CJK、标点、全角字符等）：
+   ```
+   # 提取常用汉字区段（CJK Unified Ideographs）
+   pyftsubset input.ttf \
+   --unicodes=U+4E00-9FFF \
+   --output-file=subset-cjk.ttf
+
+   # 提取多个 Unicode 范围，用逗号分隔多个区段
+   pyftsubset input.ttf \
+   --unicodes=U+4E00-9FFF,U+3000-303F,U+FF00-FFEF \
+   --output-file=subset-multi.ttf
+   ```
+
+> 除了 fonttools，你也可以使用 FontForge 来进行字体编辑与子集化。FontForge 是一款开源的图形化字体编辑器，支持 TTF/OTF/SVG 等多种格式，并提供脚本接口（Python/SFD）用于自动化处理。 它适合需要可视化调整字形、手动检查轮廓或进行更复杂字体编辑的场景。
+
+## 常用 Unicode 范围参考
+| 字符集 | Unicode 范围 |
+|-------|--------------|
+| 基本汉字（CJK Unified Ideographs） | `U+4E00–9FFF` |
+| 扩展 A | `U+3400–4DBF` |
+| 扩展 B | `U+20000–2A6DF` |
+| 扩展 C–G | `U+2A700–2EBEF` |
+| 全角字符（Fullwidth Forms） | `U+FF00–FFEF` |
+| 标点符号（CJK Symbols & Punctuation） | `U+3000–303F` |
+| Emoji 基本区段 | `U+1F300–1F5FF` |
 
 ## 📊 效果展示
+
 | 集合类型 | 汉字数量 | 文件大小 | 用途定位 |
 |----------|----------|----------|----------|
 | 原始字体 | 全量汉字 | 12.40 MB | 未优化，体积庞大 |
